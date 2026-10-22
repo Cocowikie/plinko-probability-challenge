@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plinko Probability Challenge</title>
+<style>
+:root{--navy:#171c55;--purple:#6037d9;--lav:#eeeaff;--ink:#20264f;--muted:#687096;--bg:#f5f6ff;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:linear-gradient(120deg,#242d86,#6037d9);color:white;padding:22px 16px 18px;box-shadow:0 5px 18px #242d8625}
+.head{max-width:1050px;margin:auto;display:flex;align-items:center;gap:12px}.logo{font-size:30px;background:#ffffff22;border-radius:14px;padding:8px 11px}h1{font-size:clamp(20px,4vw,29px);margin:0}header p{margin:4px 0 0;color:#e5e3ff;font-size:14px}
+main{max-width:1050px;margin:22px auto;padding:0 14px 36px}.tabs{display:flex;gap:8px;overflow:auto;margin-bottom:16px}.tab{border:0;border-radius:12px;padding:11px 15px;font-weight:700;color:#4c4388;background:#e7e4fb;white-space:nowrap;cursor:pointer}.tab.active{background:var(--purple);color:white}
+.panel{background:white;border:1px solid #e3e5f7;border-radius:18px;padding:18px;box-shadow:0 5px 18px #20264f0a;margin-bottom:16px}.intro{background:linear-gradient(120deg,#f0edff,#fff);display:flex;gap:16px;align-items:center}.intro h2{margin:0 0 6px}.intro p{margin:0;color:var(--muted);line-height:1.5}.mini-board{width:100px;flex-shrink:0;background:#233b7c;border:5px solid #f5a44d;border-radius:13px;padding:9px 7px 5px;display:grid;grid-template-columns:repeat(5,1fr);gap:5px}.peg{width:6px;height:6px;border-radius:50%;background:#dce8ff;justify-self:center}.slots{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-top:7px}.slot{color:#fff;text-align:center;border-radius:4px;padding:4px 0;font-size:11px;font-weight:800}.a{background:#4384f5}.b{background:#42b978}.c{background:#ffc72e;color:#4b3900}.d{background:#ff813b}.e{background:#ee4b88}
+h2{font-size:20px;margin:0 0 14px}h3{font-size:16px;margin:0 0 10px}.muted{color:var(--muted);font-size:13px;line-height:1.5}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.field{display:flex;flex-direction:column;gap:6px;flex:1;min-width:130px}label{font-weight:700;font-size:13px}input,select{width:100%;padding:12px;border:1px solid #d9dcf2;border-radius:10px;background:#fff;color:var(--ink);font:inherit}button{font:inherit;cursor:pointer}.primary{background:var(--purple);color:white;border:0;border-radius:11px;padding:12px 17px;font-weight:800}.secondary{background:#eeeaff;color:#4f36b7;border:0;border-radius:11px;padding:11px 14px;font-weight:700}.danger{background:#fff0f2;color:#b42349;border:0;border-radius:10px;padding:9px 12px;font-weight:700}.slot-buttons{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0}.slot-button{border:0;color:white;border-radius:12px;padding:15px 4px;font-weight:800;box-shadow:0 3px 0 #00000013}.slot-button small{display:block;font-weight:600;opacity:.95;margin-top:3px}.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.metric{background:#f6f5ff;border-radius:13px;padding:14px}.metric span{display:block;color:var(--muted);font-size:12px;font-weight:700}.metric strong{display:block;font-size:24px;margin-top:4px}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:430px;font-size:14px}th,td{padding:11px 9px;text-align:center;border-bottom:1px solid #e8e9f6}th{background:#f4f3ff;color:#514b8e;font-size:12px}td:first-child,th:first-child{text-align:left}.bar-row{display:grid;grid-template-columns:22px 1fr 52px;gap:9px;align-items:center;margin:12px 0;font-size:13px}.track{height:13px;border-radius:99px;background:#ececf7;overflow:hidden}.bar{height:100%;border-radius:99px}.note{padding:12px 14px;background:#f1efff;border-radius:12px;font-size:13px;line-height:1.5;color:#514b8e}.hidden{display:none!important}.chart-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}.footer{text-align:center;color:var(--muted);font-size:12px;padding:8px}
+@media(max-width:600px){main{margin-top:14px}.panel{padding:14px}.intro{align-items:flex-start}.mini-board{width:78px;padding:7px 5px 4px;gap:4px}.peg{width:5px;height:5px}.metrics{grid-template-columns:1fr 1fr}.metric:last-child{grid-column:span 2}.slot-buttons{gap:5px}.slot-button{padding:12px 2px;font-size:13px}.slot-button small{font-size:10px}.tab{padding:10px 12px}}
+</style>
+</head>
+<body>
+<header><div class="head"><div class="logo">🎪</div><div><h1>Plinko Probability Challenge</h1><p>Drop · Observe · Analyze — Statistics meets carnival fun</p></div></div></header>
+<main>
+<div class="tabs" role="tablist">
+<button class="tab active" data-page="game">🎯 Record Results</button>
+<button class="tab" data-page="stats">📊 Statistics</button>
+<button class="tab" data-page="theory">🧮 Probability</button>
+<button class="tab" data-page="about">💡 About</button>
+</div>
+<section id="game" class="page">
+<div class="panel intro"><div class="mini-board" aria-hidden="true"><span class="peg"></span><span class="peg"></span><span class="peg"></span><span class="peg"></span><span class="peg"></span><span class="peg"></span><span class="peg"></span><span class="peg"></span><span class="peg"></span><span class="peg"></span><span class="peg"></span><span class="peg"></span><span class="peg"></span><span class="peg"></span><span class="peg"></span><div class="slots"><span class="slot a">A</span><span class="slot b">B</span><span class="slot c">C</span><span class="slot d">D</span><span class="slot e">E</span></div></div><div><h2>Welcome, player!</h2><p>Use the physical Plinko board, then tap the slot where each ball lands. The app will update your data automatically.</p></div></div>
+<div class="panel"><h2>Record a ball</h2><div class="row"><div class="field"><label for="target">Planned number of balls (optional)</label><input id="target" type="number" min="1" max="10000" value="10"></div><div class="field"><label for="scoreA">Slot A–E point values</label><div class="muted">Default: A=10, B=20, C=30, D=40, E=50 points</div></div></div>
+<div class="slot-buttons">
+<button class="slot-button a" data-slot="0">Slot A<small>10 pts</small></button>
+<button class="slot-button b" data-slot="1">Slot B<small>20 pts</small></button>
+<button class="slot-button c" data-slot="2">Slot C<small>30 pts</small></button>
+<button class="slot-button d" data-slot="3">Slot D<small>40 pts</small></button>
+<button class="slot-button e" data-slot="4">Slot E<small>50 pts</small></button>
+</div>
+<div class="row"><button class="secondary" id="undo">↶ Undo last result</button><button class="secondary" id="export">⬇ Export CSV</button><button class="danger" id="reset">Reset data</button></div>
+<p class="muted" id="progress" aria-live="polite">0 results recorded. Tap a slot after each ball lands.</p></div>
+<div class="panel"><h3>Recent results</h3><div id="recent" class="muted">No results yet. Record the first ball above.</div></div>
+</section>
+<section id="stats" class="page hidden">
+<div class="panel"><h2>Live statistics</h2><div class="metrics"><div class="metric"><span>BALLS RECORDED</span><strong id="total">0</strong></div><div class="metric"><span>TOTAL SCORE</span><strong id="totalScore">0</strong></div><div class="metric"><span>MEAN SCORE</span><strong id="mean">—</strong></div></div></div>
+<div class="panel"><h2>Frequency distribution</h2><div class="table-wrap"><table><thead><tr><th>Slot</th><th>Frequency</th><th>Experimental probability</th><th>Points</th></tr></thead><tbody id="freqTable"></tbody><tfoot><tr><th>Total</th><th id="freqTotal">0</th><th id="probTotal">—</th><th>—</th></tr></tfoot></table></div></div>
+<div class="panel"><h2>Outcome frequency chart</h2><div id="bars"></div><div class="chart-legend"><span><i class="dot" style="background:#4384f5"></i>A</span><span><i class="dot" style="background:#42b978"></i>B</span><span><i class="dot" style="background:#ffc72e"></i>C</span><span><i class="dot" style="background:#ff813b"></i>D</span><span><i class="dot" style="background:#ee4b88"></i>E</span></div></div>
+<div class="panel"><h2>Score summary</h2><div class="metrics"><div class="metric"><span>MEDIAN SCORE</span><strong id="median">—</strong></div><div class="metric"><span>MODE SLOT</span><strong id="mode">—</strong></div><div class="metric"><span>RANGE OF SCORES</span><strong id="range">—</strong></div></div><p class="muted">The mode slot is the most frequently recorded slot. If multiple slots tie, they will all be shown.</p></div>
+</section>
+<section id="theory" class="page hidden">
+<div class="panel"><h2>Theoretical vs. experimental probability</h2><p class="muted">Set a theoretical distribution to compare your prediction with the results from the physical board. These percentages are an example model, not a guarantee: real outcomes depend on the board design and ball behavior.</p>
+<div class="row" id="theoryInputs"></div><div class="row" style="margin-top:12px"><button class="primary" id="saveTheory">Update theoretical probabilities</button><button class="secondary" id="preset">Use example 10 / 20 / 40 / 20 / 10</button></div><p class="muted" id="theoryMessage">Theoretical percentages should add up to 100%.</p></div>
+<div class="panel"><div class="table-wrap"><table><thead><tr><th>Slot</th><th>Theoretical</th><th>Experimental</th><th>Difference (percentage points)</th></tr></thead><tbody id="compareTable"></tbody></table></div></div>
+<div class="panel"><h3>Formula</h3><p><strong>Experimental probability</strong> = (observed frequency ÷ total trials) × 100%</p><p><strong>Difference</strong> = experimental probability − theoretical probability</p><p class="muted">A positive difference means the outcome occurred more often than the model predicted; a negative difference means it occurred less often.</p></div>
+</section>
+<section id="about" class="page hidden">
+<div class="panel"><h2>What this project demonstrates</h2><h3>📐 Mathematics</h3><p class="muted">Probability, possible paths, combinations, and Pascal’s triangle for an idealized left/right movement model.</p><h3>📊 Statistics</h3><p class="muted">Frequency distributions, experimental probability, mean, median, mode, range, and visualizing collected results.</p><h3>💻 BSCS integration</h3><p class="muted">The app processes user input, stores observations during the session, automates calculations, and exports a CSV file for further analysis.</p><div class="note"><strong>Presentation tip:</strong> Explain that the app records the physical experiment; it does not predict the exact path of each real ball. Compare repeated observations with your stated theoretical model.</div></div>
+</section>
+<div class="footer">Plinko Probability Challenge · Classroom project demo</div>
+</main>
+<script>
+const names=['A','B','C','D','E'], points=[10,20,30,40,50], colors=['#4384f5','#42b978','#ffc72e','#ff813b','#ee4b88'];
+let results=[], theoretical=[10,20,40,20,10];
+const $=id=>document.getElementById(id);
+document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b===btn));document.querySelectorAll('.page').forEach(p=>p.classList.toggle('hidden',p.id!==btn.dataset.page));if(btn.dataset.page==='stats')render();if(btn.dataset.page==='theory')renderTheory();}));
+document.querySelectorAll('[data-slot]').forEach(btn=>btn.addEventListener('click',()=>{results.push(Number(btn.dataset.slot));render();}));
+$('undo').addEventListener('click',()=>{results.pop();render();});
+$('reset').addEventListener('click',()=>{if(results.length&&!confirm('Clear all recorded results?'))return;results=[];render();});
+$('export').addEventListener('click',()=>{let rows=[['Ball','Slot','Score'],...results.map((s,i)=>[i+1,names[s],points[s]])];let csv=rows.map(r=>r.join(',')).join('\\n');let blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});let url=URL.createObjectURL(blob);let a=document.createElement('a');a.href=url;a.download='plinko-results.csv';a.click();URL.revokeObjectURL(url);});
+function render(){let counts=names.map((_,i)=>results.filter(x=>x===i).length),n=results.length,totalScore=results.reduce((sum,s)=>sum+points[s],0);$('total').textContent=n;$('totalScore').textContent=totalScore;$('mean').textContent=n?(totalScore/n).toFixed(2):'—';$('freqTotal').textContent=n;$('probTotal').textContent=n?'100%':'—';
+$('freqTable').innerHTML=names.map((name,i)=>`<tr><td><span class="dot" style="background:${colors[i]}"></span>Slot ${name}</td><td>${counts[i]}</td><td>${n?(counts[i]/n*100).toFixed(2)+'%':'—'}</td><td>${points[i]}</td></tr>`).join('');
+let max=Math.max(1,...counts);$('bars').innerHTML=names.map((name,i)=>`<div class="bar-row"><strong>${name}</strong><div class="track"><div class="bar" style="width:${counts[i]/max*100}%;background:${colors[i]}"></div></div><span>${counts[i]} (${n?(counts[i]/n*100).toFixed(1):'0.0'}%)</span></div>`).join('');
+let scores=results.map(s=>points[s]).sort((a,b)=>a-b);let median=scores.length?(scores.length%2?scores[(scores.length-1)/2]:(scores[scores.length/2-1]+scores[scores.length/2])/2):null;$('median').textContent=median===null?'—':median;$('range').textContent=scores.length?scores[scores.length-1]-scores[0]:'—';let maxCount=Math.max(...counts);$('mode').textContent=n?counts.map((v,i)=>v===maxCount?names[i]:null).filter(Boolean).join(', '):'—';
+$('progress').textContent=`${n} result${n===1?'':'s'} recorded${$('target').value?` · target: ${$('target').value} balls`:''}.`;let recent=results.slice(-8).map((s,i)=>`#${results.length-Math.min(8,results.length)+i+1}: Slot ${names[s]} (${points[s]} pts)`).reverse();$('recent').textContent=recent.length?recent.join('  •  '):'No results yet. Record the first ball above.';renderTheory();}
+function buildTheoryInputs(){$('theoryInputs').innerHTML=names.map((n,i)=>`<div class="field"><label for="t${i}">Slot ${n} (%)</label><input type="number" id="t${i}" min="0" max="100" step="1" value="${theoretical[i]}"></div>`).join('');}
+function renderTheory(){let n=results.length;let counts=names.map((_,i)=>results.filter(s=>s===i).length);$('compareTable').innerHTML=names.map((name,i)=>{let exp=n?counts[i]/n*100:null;return `<tr><td>Slot ${name}</td><td>${theoretical[i].toFixed(2)}%</td><td>${exp===null?'—':exp.toFixed(2)+'%'}</td><td>${exp===null?'—':(exp-theoretical[i]).toFixed(2)+' pp'}</td></tr>`}).join('');}
+buildTheoryInputs();
+$('saveTheory').addEventListener('click',()=>{let vals=names.map((_,i)=>Number($('t'+i).value));if(vals.some(v=>!Number.isFinite(v)||v<0||v>100)){$('theoryMessage').textContent='Enter values from 0 to 100.';return;}let sum=vals.reduce((a,b)=>a+b,0);if(Math.abs(sum-100)>0.001){$('theoryMessage').textContent=`Your percentages currently total ${sum}%. They must add up to 100%.`;return;}theoretical=vals;$('theoryMessage').textContent='Saved! Theoretical probabilities total 100%.';renderTheory();});
+$('preset').addEventListener('click',()=>{theoretical=[10,20,40,20,10];buildTheoryInputs();$('theoryMessage').textContent='Example distribution restored. Update to apply it.';renderTheory();});
+render();
+</script>
+</body>
+</html>
